@@ -15,23 +15,14 @@ struct Fold{
     INIT init;
     OP func;
 
-
-
     template<container V>
-    INIT operator()(V &v, INIT init, OP func) const
+    auto operator()(const V &v)
     requires std::invocable<OP, INIT, typename V::value_type>
     {
         for(const auto &elt : v)
             init = func(init, elt);
 
         return init;
-    }
-
-    template<container V>
-    auto operator()(const V &v) const
-    requires std::invocable<OP, INIT, typename V::value_type>
-    {
-        return this->operator()(v, init, func);
     }
 };
 
